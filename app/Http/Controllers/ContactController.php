@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ContactDetailResource;
+use App\Http\Resources\ContactResource;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 
@@ -12,8 +14,8 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::latest('id')->paginate(5)->withQueryString();
-        return response()->json($contacts);
+        $contacts = Contact::latest("id")->paginate(5)->withQueryString();
+        return ContactResource::collection($contacts);
     }
 
     /**
@@ -21,7 +23,19 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "name" => "required",
+            "country_code" => "required|min:1|max:265",
+            "phone_number" => "required"
+        ]);
+
+        $contact = Contact::create([
+            "name" => $request->name,
+            "country_code" => $request->country_code,
+            "phone_number" => $request->phone_number
+        ]);
+
+        return new ContactDetailResource($contact);
     }
 
     /**
@@ -29,7 +43,9 @@ class ContactController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $contact = Contact::find($id);
+
+        return new ContactDetailResource($contact);
     }
 
     /**
@@ -37,7 +53,21 @@ class ContactController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            "name" => "required",
+            "country_code" => "required|min:1|max:265",
+            "phone_number" => "required"
+        ]);
+
+        $contact = Contact::find($id);
+
+        $contact->update([
+            "name" => $request->name,
+            "country_code" => $request->country_code,
+            "phone_number" => $request->phone_number
+        ]);
+
+        return new ContactDetailResource($contact);
     }
 
     /**
@@ -45,6 +75,9 @@ class ContactController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $contact = Contact::find($id);
+        $contact->delete();
+
+        return response()->json([], 204);
     }
 }
