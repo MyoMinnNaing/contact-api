@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Contact as ResourcesContact;
+use App\Http\Resources\ContactCollection;
 use App\Http\Resources\ContactDetailResource;
 use App\Http\Resources\ContactResource;
 use App\Models\Contact;
@@ -16,6 +18,7 @@ class ContactController extends Controller
     {
         $contacts = Contact::latest("id")->paginate(5)->withQueryString();
         return ContactResource::collection($contacts);
+        // return new ContactCollection(Contact::all());
     }
 
     /**
@@ -45,6 +48,12 @@ class ContactController extends Controller
     {
         $contact = Contact::find($id);
 
+        if (is_null($contact)) {
+            return response()->json([
+                "message" => "Contact is not found",
+            ], 404);
+        };
+
         return new ContactDetailResource($contact);
     }
 
@@ -53,19 +62,43 @@ class ContactController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // nullable is for partially data updating
         $request->validate([
-            "name" => "required",
-            "country_code" => "required|min:1|max:265",
-            "phone_number" => "required"
+            "name" => "nullable|min:3|max:20",
+            "country_code" => "nullable|integer|min:1|max:265",
+            "phone_number" => "nullable|min:7|max:15"
         ]);
 
         $contact = Contact::find($id);
+        if (is_null($contact)) {
+            return response()->json([
+                "message" => "Contact is not found",
+            ], 404);
+        };
 
-        $contact->update([
-            "name" => $request->name,
-            "country_code" => $request->country_code,
-            "phone_number" => $request->phone_number
-        ]);
+        // $contact->update([
+        //     "name" => $request->name,
+        //     "country_code" => $request->country_code,
+        //     "phone_number" => $request->phone_number
+        // ]);
+
+        // $contact->update($request->all());
+
+
+        // Partially update data logic
+        if ($request->has('name')) {
+            $contact->name = $request->name;
+        }
+
+        if ($request->has('country_code')) {
+            $contact->country_code = $request->country_code;
+        }
+
+        if ($request->has('phone_number')) {
+            $contact->phone_number = $request->phone_number;
+        }
+
+        $contact->update();
 
         return new ContactDetailResource($contact);
     }
@@ -76,8 +109,17 @@ class ContactController extends Controller
     public function destroy(string $id)
     {
         $contact = Contact::find($id);
+
+        if (is_null($contact)) {
+            return response()->json([
+                "message" => "Contact is not found",
+            ], 404);
+        }
         $contact->delete();
 
-        return response()->json([], 204);
+        // return response()->json([], 204);
+        return response()->json([
+            "message" => "Contact is deleted",
+        ]);
     }
 }
