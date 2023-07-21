@@ -7,7 +7,11 @@ use App\Http\Resources\ContactCollection;
 use App\Http\Resources\ContactDetailResource;
 use App\Http\Resources\ContactResource;
 use App\Models\Contact;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class ContactController extends Controller
 {
@@ -16,7 +20,13 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::latest("id")->paginate(5)->withQueryString();
+        $contacts = Contact::where('user_id', Auth::id())->latest("id")->paginate(5)->withQueryString();
+
+        if (empty($contacts[0])) {
+            return response()->json([
+                "loginUser" => Auth::user()->name,
+            ]);
+        }
         return ContactResource::collection($contacts);
         // return new ContactCollection(Contact::all());
     }
@@ -27,15 +37,20 @@ class ContactController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "name" => "required",
+            "name" => "required|unique:contacts,name",
             "country_code" => "required|min:1|max:265",
-            "phone_number" => "required"
+            "phone_number" => "required|unique:contacts,phone_number"
+        ], [
+            "name.unique" => "the name has already stored",
+            "phone_number.unique" => "phone number has already stored"
+
         ]);
 
         $contact = Contact::create([
             "name" => $request->name,
             "country_code" => $request->country_code,
-            "phone_number" => $request->phone_number
+            "phone_number" => $request->phone_number,
+            "user_id" => Auth::id()
         ]);
 
         return new ContactDetailResource($contact);
@@ -44,8 +59,9 @@ class ContactController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
+
         $contact = Contact::find($id);
 
         if (is_null($contact)) {
@@ -53,6 +69,13 @@ class ContactController extends Controller
                 "message" => "Contact is not found",
             ], 404);
         };
+
+        try {
+            $this->authorize('view', $contact);
+        } catch (AuthorizationException $e) {
+            // Authorization failed
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
 
         return new ContactDetailResource($contact);
     }

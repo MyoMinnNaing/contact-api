@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class ContactResource extends JsonResource
 {
@@ -18,7 +19,8 @@ class ContactResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "phone_number" => $this->phone_number,
-            "photo" => $this->photo
+            "photo" => $this->photo,
+            "loginUser" => Auth::user()->name
         ];
     }
 }

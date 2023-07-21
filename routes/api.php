@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiAuthController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,4 +21,28 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-Route::apiResource('contact', ContactController::class);
+// Route::apiResource('contact', ContactController::class)->middleware('auth:sanctum');
+
+
+// Route::post("register", [ApiAuthController::class, 'register']);
+// Route::post("login", [ApiAuthController::class, 'login']);
+// Route::post("logout", [ApiAuthController::class, 'logout'])->middleware('auth:sanctum');
+// Route::post("logout-all", [ApiAuthController::class, 'logoutAll'])->middleware('auth:sanctum');
+
+
+Route::prefix("v1")->group(function () {
+
+    Route::middleware('auth:sanctum')->group(function () {
+
+        Route::apiResource('contact', ContactController::class);
+        Route::delete('multiple-delete', [ContactController::class, 'multipleDestory']);
+
+        Route::post("logout", [ApiAuthController::class, 'logout']);
+        Route::post("logout-all", [ApiAuthController::class, 'logoutAll']);
+        Route::get("devices", [ApiAuthController::class, 'devices']);
+    });
+
+
+    Route::post("register", [ApiAuthController::class, 'register']);
+    Route::post("login", [ApiAuthController::class, 'login']);
+});
