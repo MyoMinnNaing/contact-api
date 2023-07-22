@@ -45,7 +45,7 @@ class ContactPolicy
      */
     public function delete(User $user, Contact $contact): bool
     {
-        //
+        return $user->id === $contact->user_id;
     }
 
     /**

@@ -138,6 +138,14 @@ class ContactController extends Controller
                 "message" => "Contact is not found",
             ], 404);
         }
+
+        try {
+            $this->authorize('delete', $contact);
+        } catch (AuthorizationException $e) {
+            // Authorization failed
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
         $contact->delete();
 
         // return response()->json([], 204);

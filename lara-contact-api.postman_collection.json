@@ -1,0 +1,373 @@
+{
+	"info": {
+		"_postman_id": "58436c76-6816-4e29-bb90-ad8362c62485",
+		"name": "lara-contact-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26268128"
+	},
+	"item": [
+		{
+			"name": "contact",
+			"item": [
+				{
+					"name": "index",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{lara_contact_base_url}}/contact",
+							"host": [
+								"{{lara_contact_base_url}}"
+							],
+							"path": [
+								"contact"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{lara_contact_base_url}}/contact/4",
+							"host": [
+								"{{lara_contact_base_url}}"
+							],
+							"path": [
+								"contact",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "english",
+									"type": "text"
+								},
+								{
+									"key": "country_code",
+									"value": "65",
+									"type": "text"
+								},
+								{
+									"key": "phone_number",
+									"value": "09420797534",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{lara_contact_base_url}}/contact",
+							"host": [
+								"{{lara_contact_base_url}}"
+							],
+							"path": [
+								"contact"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "myanmar",
+									"type": "text"
+								},
+								{
+									"key": "country_code",
+									"value": "95",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "phone_number",
+									"value": "9447280686",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{lara_contact_base_url}}/contact/1",
+							"host": [
+								"{{lara_contact_base_url}}"
+							],
+							"path": [
+								"contact",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "destory",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{lara_contact_base_url}}/contact/3",
+							"host": [
+								"{{lara_contact_base_url}}"
+							],
+							"path": [
+								"contact",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "partial-update",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "profile",
+			"item": [
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{lara_contact_base_url}}/logout",
+							"host": [
+								"{{lara_contact_base_url}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logoutAll",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{lara_contact_base_url}}/logout-all",
+							"host": [
+								"{{lara_contact_base_url}}"
+							],
+							"path": [
+								"logout-all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "register",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "khaing thin thin htay",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "khaing@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "asdfasdf",
+							"type": "text"
+						},
+						{
+							"key": "password_confirmation",
+							"value": "asdfasdf",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{lara_contact_base_url}}/register",
+					"host": [
+						"{{lara_contact_base_url}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "zawzaw@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "asdfasdf",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{lara_contact_base_url}}/login?",
+					"host": [
+						"{{lara_contact_base_url}}"
+					],
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
