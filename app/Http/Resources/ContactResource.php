@@ -20,7 +20,8 @@ class ContactResource extends JsonResource
             "name" => $this->name,
             "phone_number" => $this->phone_number,
             "photo" => $this->photo,
-            "loginUser" => Auth::user()->name
+            "loginUser" => Auth::user()->name,
+            "user_id" => Auth::id()
         ];
     }
 }
