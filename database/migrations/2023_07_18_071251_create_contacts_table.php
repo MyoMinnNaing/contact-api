@@ -24,6 +24,7 @@ return new class extends Migration
             $table->date("birth_day")->nullable();
             $table->text("notes")->nullable();
             $table->string("photo")->default(config("info.default_contact_photo"));
+            $table->softDeletes();
             $table->timestamps();
         });
     }

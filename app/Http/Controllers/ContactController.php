@@ -20,8 +20,9 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::where('user_id', Auth::id())->latest("id")->paginate(5)->withQueryString();
+        $contacts = Contact::where('user_id', Auth::id())->withTrashed()->paginate(5)->withQueryString();
 
+        // $trashContacts = Contact::withTrashed()->get();
         if (empty($contacts[0])) {
             return response()->json([
                 "loginUser" => Auth::user()->name,
@@ -152,5 +153,33 @@ class ContactController extends Controller
         return response()->json([
             "message" => "Contact is deleted",
         ]);
+    }
+
+    public function restore($id)
+    {
+
+        $softdeletedConact = Contact::withTrashed()->find($id);
+        if (is_null($softdeletedConact)) {
+            return response()->json([
+                'message' => 'Softdeleted is not found'
+            ]);
+        }
+
+        $softdeletedConact->restore();
+
+        return response()->json([
+            'message' => "softdeletedContact has been restored"
+        ]);
+    }
+
+
+    public function restoreAll()
+    {
+        return response()->json([
+            'messae' => "I'm am resotre all"
+        ]);
+        Contact::onlyTrashed()->dd()->restore();
+
+        return back();
     }
 }
