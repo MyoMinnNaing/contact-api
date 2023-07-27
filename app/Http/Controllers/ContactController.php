@@ -7,7 +7,9 @@ use App\Http\Resources\ContactCollection;
 use App\Http\Resources\ContactDetailResource;
 use App\Http\Resources\ContactResource;
 use App\Models\Contact;
+use App\Models\SearchRecord;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +22,19 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::where('user_id', Auth::id())->withTrashed()->paginate(5)->withQueryString();
+        $contacts = Contact::when(request()->has("keyword"), function ($query) {
+            $query->where(function (Builder $builder) {
+                $keyword = request()->keyword;
+                $builder->where("name", "like", "%" . $keyword . "%");
+
+                // $builder->orWhere("description", "like", "%" . $keyword . "%");
+                $searchRecord = SearchRecord::create([
+                    "keyword" => $keyword,
+                    "user_id" => Auth::id(),
+                ]);
+            });
+        })
+            ->where('user_id', Auth::id())->withTrashed()->paginate(5)->withQueryString();
 
         // $trashContacts = Contact::withTrashed()->get();
         if (empty($contacts[0])) {
@@ -29,7 +43,6 @@ class ContactController extends Controller
             ]);
         }
         return ContactResource::collection($contacts);
-        // return new ContactCollection(Contact::all());
     }
 
     /**

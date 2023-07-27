@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApiAuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\SearchRecordController;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,7 @@ Route::prefix("v1")->group(function () {
         // Route::delete('multiple-delete', [ContactController::class, 'multipleDestory']);
 
         Route::apiResource('favorite', FavoriteController::class);
+        Route::apiResource('search-record', SearchRecordController::class);
 
         Route::post("logout", [ApiAuthController::class, 'logout']);
         Route::post("logout-all", [ApiAuthController::class, 'logoutAll']);
