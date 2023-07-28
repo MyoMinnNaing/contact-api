@@ -27,16 +27,17 @@ class ContactController extends Controller
                 $keyword = request()->keyword;
                 $builder->where("name", "like", "%" . $keyword . "%");
 
-                // $builder->orWhere("description", "like", "%" . $keyword . "%");
-                $searchRecord = SearchRecord::create([
-                    "keyword" => $keyword,
-                    "user_id" => Auth::id(),
-                ]);
+                $exists = SearchRecord::where('keyword', $keyword)->exists(); // exists method return boolean
+                if (!$exists) {
+                    $searchRecord = SearchRecord::create([
+                        "keyword" => $keyword,
+                        "user_id" => Auth::id(),
+                    ]);
+                }
             });
         })
             ->where('user_id', Auth::id())->withTrashed()->paginate(5)->withQueryString();
 
-        // $trashContacts = Contact::withTrashed()->get();
         if (empty($contacts[0])) {
             return response()->json([
                 "loginUser" => Auth::user()->name,
