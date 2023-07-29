@@ -31,13 +31,31 @@ class ApiAuthController extends Controller
 
     public function login(Request $request)
     {
-        // return $request;
+
         $request->validate([
             "email" => "required|email",
             "password" => "required|min:8"
         ]);
 
+        /*
+                           attempt() method
+           The attempt method accepts an array of key / value pairs as its first argument.
+           The values in the array will be used to find the user in your database table.
+           So, the user will be retrieved by the value of the email column.
+           If the user is found, the hashed password stored in the database will be compared
+           with the password value passed to the method via the array.
+           You should not hash the incoming request's password value,
+           since the framework will automatically hash the value before comparing it to the hashed password in the database.
+           An authenticated session will be started for the user if the two hashed passwords match.
+           The attempt method will return true if authentication was successful. Otherwise, false will be returned.
+
+        */
+
         if (!Auth::attempt($request->only('email', 'password'))) {
+            /*
+
+                only mehtod() -->Returns an array containing only the specified input keys from the request.
+            */
             return response()->json([
                 "message" => "Username or password wrong",
             ]);

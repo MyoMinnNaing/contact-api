@@ -27,12 +27,20 @@ class ContactController extends Controller
                 $keyword = request()->keyword;
                 $builder->where("name", "like", "%" . $keyword . "%");
 
-                $exists = SearchRecord::where('keyword', $keyword)->exists(); // exists method return boolean
+                // $exists = SearchRecord::where('keyword', $keyword)->exists(); // exists method return boolean
+
+                $exists = SearchRecord::where('keyword', $keyword)->where('user_id', Auth::id())->exists(); // exists method return boolean
+                // dd($exists);
                 if (!$exists) {
                     $searchRecord = SearchRecord::create([
                         "keyword" => $keyword,
                         "user_id" => Auth::id(),
                     ]);
+
+
+                    $searchRecord = SearchRecord::where('keyword', $keyword)->first();
+                    // dd($searchRecord);
+                    $searchRecord->users()->attach(Auth::id());
                 }
             });
         })

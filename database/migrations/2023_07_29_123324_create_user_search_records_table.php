@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('search_records', function (Blueprint $table) {
-            $table->id();
-            $table->text('keyword');
-            $table->string('user_id');
-            $table->timestamps();
+        Schema::create('user_search_records', function (Blueprint $table) {
+            // $table->id();
+            $table->foreignId('user_id');
+            $table->foreignId('search_record_id');
+            // $table->timestamps();
         });
     }
 
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('search_records');
+        Schema::dropIfExists('user_search_records');
     }
 };

@@ -18,6 +18,7 @@ class FavoriteController extends Controller
     public function index()
     {
 
+
         /*
           The whereHas method is used to filter the contacts
            based on their association with favorites.
@@ -49,7 +50,6 @@ class FavoriteController extends Controller
         ]);
 
         $contact = Contact::find($request->contact_id);
-        // dd($contact);
 
         //$contact will be null when the contact have softdeleted
         if ($contact == null) {
@@ -92,7 +92,6 @@ class FavoriteController extends Controller
     public function destroy(string $id)
     {
         $favorite = Favorite::find($id);
-        // return $favorite;
         if (is_null($favorite)) {
             return response()->json([
                 "message" => "Contact is not found",

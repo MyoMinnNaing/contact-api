@@ -44,13 +44,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{lara_contact_base_url}}/contact/4",
+							"raw": "{{lara_contact_base_url}}/contact/1",
 							"host": [
 								"{{lara_contact_base_url}}"
 							],
 							"path": [
 								"contact",
-								"4"
+								"1"
 							]
 						}
 					},
@@ -72,7 +72,7 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "english",
+									"value": "Laravel",
 									"type": "text"
 								},
 								{
@@ -82,7 +82,7 @@
 								},
 								{
 									"key": "phone_number",
-									"value": "09420797534",
+									"value": "09420797536",
 									"type": "text"
 								}
 							]
@@ -115,31 +115,29 @@
 							"urlencoded": [
 								{
 									"key": "name",
-									"value": "myanmar",
+									"value": "php laravel\n",
 									"type": "text"
 								},
 								{
 									"key": "country_code",
 									"value": "95",
-									"type": "text",
-									"disabled": true
+									"type": "text"
 								},
 								{
 									"key": "phone_number",
-									"value": "9447280686",
-									"type": "text",
-									"disabled": true
+									"value": "9447280696",
+									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{lara_contact_base_url}}/contact/1",
+							"raw": "{{lara_contact_base_url}}/contact/6",
 							"host": [
 								"{{lara_contact_base_url}}"
 							],
 							"path": [
 								"contact",
-								"1"
+								"6"
 							]
 						}
 					},
@@ -165,9 +163,95 @@
 				},
 				{
 					"name": "partial-update",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restore",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{lara_contact_base_url}}/contact/restore/2",
+							"host": [
+								"{{lara_contact_base_url}}"
+							],
+							"path": [
+								"contact",
+								"restore",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restore-all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/contact/restore-all ",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"contact",
+								"restore-all "
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search-by-name",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{lara_contact_base_url}}/contact?keyword=facebook",
+							"host": [
+								"{{lara_contact_base_url}}"
+							],
+							"path": [
+								"contact"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "facebook"
+								}
+							]
+						}
 					},
 					"response": []
 				}
@@ -245,6 +329,132 @@
 			]
 		},
 		{
+			"name": "favorites",
+			"item": [
+				{
+					"name": "store",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "contact_id",
+									"value": "4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{lara_contact_base_url}}/favorite",
+							"host": [
+								"{{lara_contact_base_url}}"
+							],
+							"path": [
+								"favorite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{lara_contact_base_url}}/favorite/8",
+							"host": [
+								"{{lara_contact_base_url}}"
+							],
+							"path": [
+								"favorite",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "index",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{lara_contact_base_url}}/favorite",
+							"host": [
+								"{{lara_contact_base_url}}"
+							],
+							"path": [
+								"favorite"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "4",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "search-records",
+			"item": [
+				{
+					"name": "index",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{lara_contact_base_url}}/search-record",
+							"host": [
+								"{{lara_contact_base_url}}"
+							],
+							"path": [
+								"search-record"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{lara_contact_base_url}}/search-record/facebook",
+							"host": [
+								"{{lara_contact_base_url}}"
+							],
+							"path": [
+								"search-record",
+								"facebook"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "register",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
@@ -263,12 +473,12 @@
 					"formdata": [
 						{
 							"key": "name",
-							"value": "khaing thin thin htay",
+							"value": "mgmg",
 							"type": "text"
 						},
 						{
 							"key": "email",
-							"value": "khaing@gmail.com",
+							"value": "mgmg@gmail.com",
 							"type": "text"
 						},
 						{
@@ -311,7 +521,7 @@
 					"formdata": [
 						{
 							"key": "email",
-							"value": "zawzaw@gmail.com",
+							"value": "mgmg@gmail.com",
 							"type": "text"
 						},
 						{
@@ -322,18 +532,12 @@
 					]
 				},
 				"url": {
-					"raw": "{{lara_contact_base_url}}/login?",
+					"raw": "{{lara_contact_base_url}}/login",
 					"host": [
 						"{{lara_contact_base_url}}"
 					],
 					"path": [
 						"login"
-					],
-					"query": [
-						{
-							"key": "",
-							"value": null
-						}
 					]
 				}
 			},

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SearchRecord;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SearchRecordController extends Controller
 {
@@ -11,7 +13,11 @@ class SearchRecordController extends Controller
      */
     public function index()
     {
-        //
+        $searchRecords = SearchRecord::all();
+
+
+
+        return response()->json($searchRecords);
     }
 
     /**
@@ -25,9 +31,17 @@ class SearchRecordController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $keyword)
     {
-        //
+
+        $searchRecordsByKeyword = SearchRecord::where('keyword', $keyword)->first();
+        // dd($searchRecordsByKeyword);
+        if (is_null($searchRecordsByKeyword)) {
+            return response()->json(['message' => "There is no searched keyword"]);
+        }
+        //usersByKeyword are  the number of users who searched for a keyword
+        $usersByKeyword = $searchRecordsByKeyword->users;
+        return response()->json($usersByKeyword);
     }
 
     /**
