@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SearchRecordResource;
 use App\Models\SearchRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class SearchRecordController extends Controller
 {
@@ -13,11 +15,21 @@ class SearchRecordController extends Controller
      */
     public function index()
     {
-        $searchRecords = SearchRecord::all();
+        $user = Auth::user();
+        $searchRecordsByUser = $user->searchRecords;
+        // $searchRecords = SearchRecord::all();
 
 
-
-        return response()->json($searchRecords);
+        return response()->json(
+            [
+                'LogInUser' => $user->name,
+                'keyword' => SearchRecordResource::collection($searchRecordsByUser)
+            ]
+        );
+        // return response()->json([
+        //     "logInUser" => $user->name,
+        //     "searchRecordsByUser" => $searchRecordsByUser
+        // ]);
     }
 
     /**
@@ -35,13 +47,14 @@ class SearchRecordController extends Controller
     {
 
         $searchRecordsByKeyword = SearchRecord::where('keyword', $keyword)->first();
-        // dd($searchRecordsByKeyword);
         if (is_null($searchRecordsByKeyword)) {
             return response()->json(['message' => "There is no searched keyword"]);
         }
         //usersByKeyword are  the number of users who searched for a keyword
-        $usersByKeyword = $searchRecordsByKeyword->users;
-        return response()->json($usersByKeyword);
+        $usersByKeyword = $searchRecordsByKeyword->users()->count();
+        return response()->json([
+            'the number of users who searched for => ' . "$keyword " => $usersByKeyword,
+        ]);
     }
 
     /**
