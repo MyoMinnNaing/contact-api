@@ -173,7 +173,7 @@ class ContactController extends Controller
 
         // return response()->json([], 204);
         return response()->json([
-            "message" => "Contact is deleted",
+            "message" => "Contact has softDeleted",
         ]);
     }
 
@@ -203,5 +203,30 @@ class ContactController extends Controller
         Contact::onlyTrashed()->dd()->restore();
 
         return back();
+    }
+
+
+    public function forceDelete($id)
+    {
+        $contact = Contact::onlyTrashed()->find($id);
+
+        if (is_null($contact)) {
+            return response()->json([
+                "message" => "softDeleted contact is not found",
+            ], 404);
+        }
+
+        try {
+            $this->authorize('delete', $contact);
+        } catch (AuthorizationException $e) {
+            // Authorization failed
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $contact->forceDelete();
+
+        return response()->json([
+            'message' => "contact has parmanmentyl deleted",
+        ]);
     }
 }

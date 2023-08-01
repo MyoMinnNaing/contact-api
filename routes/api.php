@@ -40,6 +40,7 @@ Route::prefix("v1")->group(function () {
         Route::apiResource('contact', ContactController::class);
         Route::get('contact/restore/{id}', [ContactController::class, 'restore'])->name('contacts.restore');
         Route::get('contact/restore-all', [ContactController::class, 'restoreAll'])->name('contacts.restore.all');
+        Route::delete('force-delete/{id}', [ContactController::class, 'forceDelete']);
 
         // Route::delete('multiple-delete', [ContactController::class, 'multipleDestory']);
 

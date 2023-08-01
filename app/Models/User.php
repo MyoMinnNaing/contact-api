@@ -44,10 +44,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function favorites()
-    {
-        return $this->belongsToMany(Contact::class, 'favorites', 'user_id', 'contact_id');
-    }
+    // public function favorites()
+    // {
+    //     return $this->belongsToMany(Contact::class, 'favorites', 'user_id', 'contact_id');
+    // }
 
 
     public function searchRecords()
