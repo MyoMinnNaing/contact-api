@@ -36,13 +36,14 @@ use Illuminate\Support\Facades\Route;
 Route::prefix("v1")->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/contact/restore-all', [ContactController::class, 'restoreAll']);
+        Route::delete('contact/multiple-delete', [ContactController::class, 'multipleDelete']);
+        Route::delete('contact/force-delete-all', [ContactController::class, 'forceDeleteAll']);
 
         Route::apiResource('contact', ContactController::class);
-        Route::get('contact/restore/{id}', [ContactController::class, 'restore'])->name('contacts.restore');
-        Route::get('contact/restore-all', [ContactController::class, 'restoreAll'])->name('contacts.restore.all');
-        Route::delete('force-delete/{id}', [ContactController::class, 'forceDelete']);
+        Route::delete('contact/force-delete/{id}', [ContactController::class, 'forceDelete']);
+        Route::get('contact/restore/{id}', [ContactController::class, 'restore']);
 
-        // Route::delete('multiple-delete', [ContactController::class, 'multipleDestory']);
 
         Route::apiResource('favorite', FavoriteController::class);
         Route::apiResource('search-record', SearchRecordController::class);

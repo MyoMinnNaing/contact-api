@@ -177,6 +177,25 @@ class ContactController extends Controller
         ]);
     }
 
+
+    public function multipleDelete(Request $request)
+    {
+        $ids = $request->ids;
+        // if (is_array($ids)) {
+        //     return $ids;
+        // }
+
+        Contact::destroy($ids);
+
+        return response()->json([
+            'message' => "you have deleted multiple records ",
+        ]);
+    }
+
+
+
+
+
     public function restore($id)
     {
 
@@ -197,12 +216,14 @@ class ContactController extends Controller
 
     public function restoreAll()
     {
-        return response()->json([
-            'messae' => "I'm am resotre all"
-        ]);
-        Contact::onlyTrashed()->dd()->restore();
+        // return response()->json([
+        //     'messae' => "I'm am resotre all"
+        // ]);
+        Contact::onlyTrashed()->restore();
 
-        return back();
+        return response()->json([
+            'message' => "All softDeleted records has restored"
+        ]);
     }
 
 
@@ -227,6 +248,17 @@ class ContactController extends Controller
 
         return response()->json([
             'message' => "contact has parmanmentyl deleted",
+        ]);
+    }
+
+
+    public function forceDeleteAll()
+    {
+
+
+        $trashContacts = Contact::onlyTrashed()->forceDelete();
+        return response()->json([
+            'message' => "SoftDeleted Contacts has parmanmentyl deleted",
         ]);
     }
 }

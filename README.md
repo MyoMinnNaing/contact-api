@@ -1,129 +1,237 @@
-# Contact App API
+Sure! Here's a README.md file written in Markdown for the Postman documentation JSON file provided:
 
-## API Reference
+# Postman API Documentation
 
-##` Login (Post)`
+This repository contains the Postman API documentation for the project. The API provides endpoints to manage contacts, user profiles, favorites, and search records. The authentication type used in this API is bearer token.
 
-```http
- {{lara_contact_base_url}}/login?
+## Endpoints
+
+### Contacts
+
+#### Get All Contacts
+
+-   **Request Method**: GET
+
+    ```
+    http://127.0.0.1:8000/api/v1/contact
+
+    ```
+
+#### Get Single Contact
+
+-   **Request Method**: GET
+    ```
+     http://127.0.0.1:8000/api/v1/contact/1
+    ```
+
+#### Create Contact
+
+-   **Request Method**: POST
+
+```
+http://127.0.0.1:8000/api/v1/contact
+
 ```
 
-## Body <small>form-data</small>
+## form data
 
-| Arguments  | Type     | Description                   |
-| :--------- | :------- | :---------------------------- |
-| `email`    | `string` | **Required** zawzaw@gmail.com |
-| `password` | `string` | **Required** asdffdsa         |
+| Arguments      | Type     | Description              |
+| :------------- | :------- | :----------------------- |
+| `name`         | `string` | **Required** myominnaing |
+| `country_code` | `string` | **Required** 65          |
+| `phone_number` | `string` | **Required** 09420797530 |
 
-<!--  -->
+#### Update Contact
 
-## `Register (Post)`
+-   **Request Method**: PUT
 
-```http
-  {{lara_contact_base_url}}/register
+```
+http://127.0.0.1:8000/api/v1/contact/6
+
 ```
 
-## Request Header
+## form data
 
-Accept ------------------------application/json
+| Arguments      | Type     | Description              |
+| :------------- | :------- | :----------------------- |
+| `name`         | `string` | **Required** ktth        |
+| `country_code` | `string` | **Required** 65          |
+| `phone_number` | `string` | **Required** 09448521517 |
 
-## Body <small>form-data</small>
+#### Delete Contact
 
-| Arguments               | Type     | Description                    |
-| :---------------------- | :------- | :----------------------------- |
-| `name`                  | `string` | **Required** example           |
-| `email`                 | `string` | **Required** example@gmail.com |
-| `password`              | `string` | **Required** asdffdsa          |
-| `password_confirmation` | `string` | **Required** asdffdsa          |
+-   **Request Method**: DELETE
 
-<!--  -->
+```
+http://127.0.0.1:8000/api/v1/contact/2
 
-## `Get Contacts (Get)`
-
-```http
- {{lara_contact_base_url}}/contact
 ```
 
-## `Authorization` <small>Bearer Token</small>
+### User Profile
 
-This request is using an authorization helper from collection [lara-contact-api](https://lara-contact.com)
+#### User Logout
 
-<!--  -->
+-   **Request Method**: POST
 
-## `Get Single Contact (Get)`
+```
+http://127.0.0.1:8000/api/v1/logout
 
-```http
- {{lara_contact_base_url}}/contact/{id}
 ```
 
-### `Authorization` <small>Bearer Token</small>
+#### User Logout All Sessions
 
----
+-   **Request Method**: POST
 
-This request is using an authorization helper from collection [lara-contact-api](https://lara-contact.com)
+```
+ http://127.0.0.1:8000/api/v1/logout-all
 
-<!--  -->
-
-## `Create Contact(POST)`
-
-```http
- {{lara_contact_base_url}}/contact
 ```
 
-## `Authorization` <small>Bearer Token</small>
+### Favorites
 
-This request is using an authorization helper from collection [lara-contact-api](https://lara-contact.com)
+#### Add Contact to Favorites
 
-| Arguments      | Type      | Description              |
-| :------------- | :-------- | :----------------------- |
-| `name`         | `string`  | **Required** myominnaing |
-| `country_code` | `integer` | **Required** +95         |
-| `phone_number` | `string`  | **Required** 09420797535 |
+-   **Request Method**: POST
 
-<!--  -->
+```
+ http://127.0.0.1:8000/api/v1/favorite
 
-### `Update Contact(PUT)`
-
-```http
- {{lara_contact_base_url}}/contact/{id}
 ```
 
-## `Authorization` <small>Bearer Token</small>
+## form data
 
-This request is using an authorization helper from collection [lara-contact-api](https://lara-contact.com)
+| Arguments    | Type     | Description    |
+| :----------- | :------- | :------------- |
+| `contaci_id` | `string` | **Required** 3 |
 
-## `You can update with only singe Parameter or more`
+#### Remove Contact from Favorites
 
-## Body <small>form-data</small>
+-   **Request Method**: DELETE
 
-| Arguments      | Type      | Description              |
-| :------------- | :-------- | :----------------------- |
-| `name`         | `string`  | **nullable** myominnaing |
-| `country_code` | `integer` | **nullable** +95         |
-| `phone_number` | `string`  | **nullable** 09420797535 |
+```
+http://127.0.0.1:8000/api/v1/favorite/8
 
-<!--  -->
-
-### `Delete Contact (DELETE)`
-
-```http
-  {{lara_contact_base_url}}/contact/{id}
 ```
 
-### Get User devices (GET)
+#### Get All Favorites
 
-```http
-  https://contact-app.mms-it.com/api/v1/user-devices
+-   **Request Method**: GET
+
+```
+ http://127.0.0.1:8000/api/v1/favorite
+
 ```
 
-### `Logout (POST)`
+### Search Records
 
-```http
-   {{lara_contact_base_url}}/logout
+#### Search Records by User
+
+-   **Request Method**: GET
+
+```
+http://127.0.0.1:8000/api/v1/search-record
+
 ```
 
-### `LogoutAll (POST)`
+#### Search Users by Keyword
+
+-   **Request Method**: GET
+
+```
+http://127.0.0.1:8000/api/v1/search-record/tel
+
+```
+
+## Base URL
+
+The base URL for all API requests is: `http://127.0.0.1:8000/api/v1/`
+
+## User Registration
+
+### Endpoint: POST /register
+
+Register a new user with the Lara Contact API.
+
+#### Request Headers
+
+-   Authorization: Bearer Token
+
+#### Request Body
+
+-   Content Type: form-data
+
+| Key                   | Value                 |
+| --------------------- | --------------------- |
+| name                  | myominnaing           |
+| email                 | myominnaing@gmail.com |
+| password              | asdfasdf              |
+| password_confirmation | asdfasdf              |
+
+#### Example
 
 ```http
-   {{lara_contact_base_url}}/logout-all
+POST http://127.0.0.1:8000/api/v1/register
+Content-Type: application/json
+Authorization: Bearer <your_access_token>
+
+form-data:
+name: myominnaing
+email: myominnaing@gmail.com
+password: asdfasdf
+password_confirmation: asdfasdf
 ```
+
+### Response
+
+Upon successful registration, the API will respond with a success message and the user details.
+
+## User Login
+
+### Endpoint: POST /login
+
+Authenticate a user and retrieve an access token for subsequent API requests.
+
+#### Request Headers
+
+-   Authorization: Bearer Token
+
+#### Request Body
+
+-   Content Type: form-data
+
+| Key      | Value                 |
+| -------- | --------------------- |
+| email    | myominnaing@gmail.com |
+| password | asdfasdf              |
+
+#### Example
+
+```http
+POST http://127.0.0.1:8000/api/v1/login
+Content-Type: application/json
+Authorization: Bearer <your_access_token>
+
+form-data:
+email: myominnaing@gmail.com
+password: asdfasdf
+```
+
+### Response
+
+Upon successful login, the API will respond with an access token, which can be used as a Bearer Token for authorization in subsequent requests.
+
+## Authorization
+
+To authorize your requests, you need to include the access token obtained during login in the `Authorization` header as follows:
+
+```http
+Authorization: Bearer <your_access_token>
+```
+
+Remember to replace `<your_access_token>` with the actual access token obtained from the login response.
+
+Please note that these examples assume that the API is running locally at `http://127.0.0.1:8000`. Make sure to update the base URL if the API is hosted elsewhere.
+
+Ensure to handle errors gracefully and follow any additional documentation provided by the Lara Contact API for advanced functionalities or specific error responses.
+
+That concludes the documentation for the Lara Contact API user registration and login endpoints. Happy coding!
